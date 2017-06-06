@@ -69,31 +69,31 @@ func ParseAtom(feed io.Reader) (*Feed, error) {
 	result.Contributor = ParsePerson(&af.Contributor)
 	// result.Icon.URL = af.Icon.URL
 	// result.Logo.URL = af.Logo.URL
-	result.Rights = af.Rights
+	result.Copyights = af.Rights
 	result.Subtitle = af.Subtitle
 	result.Generator = af.Generator
 
-	result.Entries = ParseEntries(af.Entries)
+	result.Items = ParseEntries(af.Entries)
 
 	return result, nil
 }
 
-func ParseEntries(ae []AtomEntry) []*Entry {
-	entries := []*Entry{}
+func ParseEntries(ae []AtomEntry) []*Item {
+	items := []*Item{}
 	for _, v := range ae {
-		entry := new(Entry)
-		entry.Author = ParsePerson(&v.Author)
-		entry.Content = v.Content
-		entry.Link = v.Link
-		entry.Updated = v.Updated
-		entry.Summary = v.Summary
-		entry.Category = v.Category
-		entry.Published = v.Published
-		// entry.Source = v.Source
-		entry.Contributor = ParsePerson(&v.Contributor)
-		entries = append(entries, entry)
+		item := new(Item)
+		item.Author = ParsePerson(&v.Author)
+		item.Content = v.Content
+		item.Link = v.Link
+		item.Updated = v.Updated
+		item.Summary = v.Summary
+		item.Category = v.Category
+		item.Published = v.Published
+		// item.Source = v.Source
+		item.Contributor = ParsePerson(&v.Contributor)
+		items = append(items, item)
 	}
-	return entries
+	return items
 }
 
 func ParsePerson(ap *AtomPerson) *Person {

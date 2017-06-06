@@ -13,14 +13,15 @@ type Feed struct {
 	Category    string     `json:"category,omitempty"`
 	Contributor *Person    `json:"contributor,omitempty"`
 	Generator   string     `json:"generator,omitempty"`
+	Language    string     `json:"language,omitempty"`
 	Icon        *Image     `json:"icon,omitempty"`
 	Logo        *Image     `json:"logo,omitempty"`
-	Rights      string     `json:"rights,omitempty"`
+	Copyights   string     `json:"copyrights,omitempty"`
 	Subtitle    string     `json:"subtitle,omitempty"`
-	Entries     []*Entry   `json:"entries"`
+	Items       []*Item    `json:"items"`
 }
 
-type Entry struct {
+type Item struct {
 	ID          string     `json:"id,omitempty"`
 	Title       string     `json:"title,omitempty"`
 	Updated     *time.Time `json:"updated,omitempty"`
