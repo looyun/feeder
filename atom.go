@@ -57,7 +57,7 @@ type AtomLink struct {
 func ParseAtom(feed io.Reader) (*Feed, error) {
 	af := AtomFeed{}
 	d := xml.NewDecoder(feed)
-	d.Decode(&af)
+	err := d.Decode(&af)
 	result := new(Feed)
 	result.Title = af.Title
 	result.Author = ParsePerson(&af.Author)
@@ -75,7 +75,7 @@ func ParseAtom(feed io.Reader) (*Feed, error) {
 
 	result.Items = ParseEntries(af.Entries)
 
-	return result, nil
+	return result, err
 }
 
 func ParseEntries(ae []AtomEntry) []*Item {

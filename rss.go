@@ -7,10 +7,6 @@ import (
 	"time"
 )
 
-// type RSS struct {
-// 	Channel RSSChannel `xml:"channel"`
-// }
-
 type RSS struct {
 	ID             string    `xml:"id"`
 	Version        string    `xml:"version,attr"`

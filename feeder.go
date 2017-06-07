@@ -30,11 +30,11 @@ func Parse(feed io.Reader) (*Feed, error) {
 
 	switch ft {
 	case "feed":
-		fmt.Println("Atom FeedType")
+		// fmt.Println("Atom FeedType")
 		result, err = ParseAtom(r)
 		return result, err
 	case "rss":
-		fmt.Println("RSS FeedType")
+		// fmt.Println("RSS FeedType")
 		result, err := ParseRSS(r)
 		return result, err
 	}
