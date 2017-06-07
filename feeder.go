@@ -26,23 +26,23 @@ func Parse(feed io.Reader) (*Feed, error) {
 
 	ft := DetectFeedType(tee)
 
+	r := io.MultiReader(&buf, feed)
+
 	switch ft {
 	case "feed":
 		fmt.Println("Atom FeedType")
-		r := io.MultiReader(&buf, feed)
 		result, err = ParseAtom(r)
 		return result, err
-		// case "rss":
-		// 	rf := RssFeed{}
-		// 	d.Decode(&rf)
-		// 	result, err := ParseRSS(af)
+	case "rss":
+		fmt.Println("RSS FeedType")
+		result, err := ParseRSS(r)
+		return result, err
 	}
 	return result, err
 }
 
 func DetectFeedType(feed io.Reader) string {
 	d := xml.NewDecoder(feed)
-	// return "feed"
 	for {
 		token, err := d.Token()
 		if err != nil {
