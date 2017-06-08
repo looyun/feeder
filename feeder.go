@@ -3,7 +3,7 @@ package feeder
 import (
 	"bytes"
 	"encoding/xml"
-	"fmt"
+	"errors"
 	"io"
 	"net/http"
 )
@@ -24,7 +24,10 @@ func Parse(feed io.Reader) (*Feed, error) {
 	var buf bytes.Buffer
 	tee := io.TeeReader(feed, &buf)
 
-	ft := DetectFeedType(tee)
+	ft, err := DetectFeedType(tee)
+	if err != nil {
+		return nil, err
+	}
 
 	r := io.MultiReader(&buf, feed)
 
@@ -37,22 +40,23 @@ func Parse(feed io.Reader) (*Feed, error) {
 		// fmt.Println("RSS FeedType")
 		result, err := ParseRSS(r)
 		return result, err
+	default:
+		return nil, errors.New("Unknown FeedType.")
 	}
 	return result, err
 }
 
-func DetectFeedType(feed io.Reader) string {
+func DetectFeedType(feed io.Reader) (string, error) {
 	d := xml.NewDecoder(feed)
 	for {
 		token, err := d.Token()
 		if err != nil {
-			fmt.Println(err)
-			break
+			return "", err
 		}
 		tokentype, ok := token.(xml.StartElement)
 		if ok {
-			return tokentype.Name.Local
+			return tokentype.Name.Local, nil
 		}
 	}
-	return ""
+	return "unknown", errors.New("Unknown content.")
 }
